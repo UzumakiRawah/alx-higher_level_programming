@@ -1,79 +1,73 @@
 #!/usr/bin/python3
-"""Create Node class."""
+"""
+create a class Square
+"""
 
 
-class Node:
-    """Defining Node linked list."""
+class Square:
+    """
+    Define the setter and getter for the size
+    """
 
-    def __init__(self, data, next_node=None):
-        """Initialize a new Node.
-
-        Args:
-            data (int): The data of the new Node.
-            next_node (Node): The next node of the new Node.
-        """
-        self.data = data
-        self.next_node = next_node
-
-    @property
-    def data(self):
-        """Get/set the data of the Node."""
-        return (self.__data)
-
-    @data.setter
-    def data(self, value):
-        if not isinstance(value, int):
-            raise TypeError("data must be an integer")
-        self.__data = value
+    def __init__(self, size=0, position=(0, 0)):
+        """Initialize the square"""
+        self.size = size
+        self.position = position
 
     @property
-    def next_node(self):
-        """Get/set the next_node of the Node."""
-        return (self.__next_node)
+    def size(self):
+        return self.__size
 
-    @next_node.setter
-    def next_node(self, value):
-        if not isinstance(value, Node) and value is not None:
-            raise TypeError("next_node must be a Node object")
-        self.__next_node = value
+    @size.setter
+    def size(self, value):
+        self.__size = value
+        if (type(value) != int):
+            raise TypeError("size must be an integer")
+        if (value < 0):
+            raise ValueError("size must be >= 0")
 
+    @property
+    def position(self):
+        return self.__position
 
-class SinglyLinkedList:
-    """Represent a singly-linked list."""
+    @position.setter
+    def position(self, value):
+        self.__position = value
+        if (len(value) != 2 or type(value) is not tuple):
+            raise TypeError("position must be a tuple of 2 positive integers")
+        if (value[0] < 0 or value[1] < 0):
+            raise TypeError("position must be a tuple of 2 positive integers")
+        if (type(value[0]) != int or type(value[1]) != int):
+            raise TypeError("position must be a tuple of 2 positive integers")
 
-    def __init__(self):
-        """Initalize a new SinglyLinkedList."""
-        self.__head = None
+    def area(self):
+        """return the area of the square"""
+        return (self.__size * self.__size)
 
-    def sorted_insert(self, value):
-        """Insert a new Node to the SinglyLinkedList.
-
-        The node is inserted into the list at the correct
-        ordered numerical position.
-
-        Args:
-            value (Node): The new Node to insert.
-        """
-        new = Node(value)
-        if self.__head is None:
-            new.next_node = None
-            self.__head = new
-        elif self.__head.data > value:
-            new.next_node = self.__head
-            self.__head = new
+    def my_print(self):
+        """print the square depending of the size received"""
+        if (self.__size == 0):
+            print()
         else:
-            tmp = self.__head
-            while (tmp.next_node is not None and
-                    tmp.next_node.data < value):
-                tmp = tmp.next_node
-            new.next_node = tmp.next_node
-            tmp.next_node = new
+            if (self.__position[1] > 0):
+                for sn in range(self.__position[1]):
+                    print()
+            for n in range(self.__size):
+                for s in range(self.__position[0]):
+                    print(' ', end="")
+                for y in range(self.__size):
+                    print('#', end="")
+                print()
 
     def __str__(self):
-        """Define the print() representation of a SinglyLinkedList."""
-        values = []
-        tmp = self.__head
-        while tmp is not None:
-            values.append(str(tmp.data))
-            tmp = tmp.next_node
-        return ('\n'.join(values))
+        string = ""
+        """Prints in stdout the square with the character #"""
+        if self.__size == 0:
+            return string
+        else:
+            if self.__position[1] > 0:
+                for pos in range(self.__position[1]):
+                    string += "\n"
+            for pos in range(self.__size):
+                string += " " * self.__position[0] + "#" * self.__size + '\n'
+        return string[:-1]
